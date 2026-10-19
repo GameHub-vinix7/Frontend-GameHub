@@ -22,15 +22,15 @@ function NavigableGameCard({ game, isFavorite, onToggleFavorite }: NavigableGame
     <div className={styles.card}>
       <GameCard
         game={game}
-        isFavorite={game.isDemo ? false : isFavorite}
-        onToggleFavorite={game.isDemo ? undefined : onToggleFavorite}
+        isFavorite={isFavorite}
+        onToggleFavorite={onToggleFavorite}
       />
-      {!game.isDemo && <Link
+      <Link
         className={styles.openDetail}
         to={`/games/${encodeURIComponent(game.id)}`}
         state={{ from }}
         aria-label={`Lihat detail ${game.title}`}
-      />}
+      />
     </div>
   )
 }

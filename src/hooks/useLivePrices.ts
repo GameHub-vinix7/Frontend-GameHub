@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
-import { API_BASE, apiRequest, mapBackendGames, withEpicDemoFallback, type BackendGame } from '../lib/backendApi'
-import { epicPreviewGames } from '../data/demoGames'
+import { API_BASE, addEpicStorefrontCards, apiRequest, mapBackendGames, type BackendGame } from '../lib/backendApi'
 import type { GameCardData } from '../types/game'
 
 type PriceStatus = 'loading' | 'live' | 'unavailable'
@@ -24,7 +23,7 @@ export function useLivePrices(): LivePrices {
           page += 1
         } while (page <= lastPage)
         if (!controller.signal.aborted) {
-          setResult({ games: withEpicDemoFallback(mapBackendGames(all), [...epicPreviewGames]), status: 'live', fetchedAt: new Date().toISOString() })
+          setResult({ games: addEpicStorefrontCards(all, mapBackendGames(all)), status: 'live', fetchedAt: new Date().toISOString() })
         }
       } catch (error) {
         if (controller.signal.aborted) return

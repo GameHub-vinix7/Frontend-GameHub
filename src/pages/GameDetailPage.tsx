@@ -8,7 +8,7 @@ import type { GameCardData } from '../types/game'
 import { discountPercent, formatPrice } from '../lib/prices'
 import { usePriceHistory } from '../hooks/usePriceHistory'
 import { getGameDetailContent, type SystemSpec } from '../data/gameDetails'
-import { apiRequest, type BackendGame } from '../lib/backendApi'
+import { apiRequest, mapSystemRequirements, type BackendGame } from '../lib/backendApi'
 import { verifiedStoreUrl } from '../data/verifiedStoreLinks'
 import styles from './GameDetailPage.module.css'
 
@@ -98,19 +98,8 @@ function GameDetailPage({ games, priceStatus }: GameDetailPageProps) {
   const description = backendDetail?.description?.trim()
     ? [backendDetail.description.trim()]
     : detail?.description.length ? detail.description : game.description ? [game.description] : []
-  const apiRequirementSpecs = (type: string): SystemSpec[] => (backendDetail?.system_requirements ?? [])
-    .filter((requirement) => requirement.type === type)
-    .flatMap((requirement) => [
-      { label: 'OS', value: requirement.operating_system },
-      { label: 'Prosesor', value: requirement.processor },
-      { label: 'Memori', value: requirement.memory },
-      { label: 'Grafis', value: requirement.graphics },
-      { label: 'Jaringan', value: requirement.network },
-      { label: 'Penyimpanan', value: requirement.storage },
-      { label: 'Kartu suara', value: requirement.sound_card },
-    ].filter((spec): spec is SystemSpec => typeof spec.value === 'string' && spec.value.trim().length > 0))
-  const apiMinimum = apiRequirementSpecs('minimum')
-  const apiRecommended = apiRequirementSpecs('recommended')
+  const apiMinimum = mapSystemRequirements(backendDetail?.system_requirements, 'minimum')
+  const apiRecommended = mapSystemRequirements(backendDetail?.system_requirements, 'recommended')
   const state: unknown = location.state
   let backTo = '/catalog'
   if (state && typeof state === 'object' && 'from' in state) {
@@ -170,12 +159,14 @@ function GameDetailPage({ games, priceStatus }: GameDetailPageProps) {
                     {discount > 0 && <span className={styles.discount}>{discount}%</span>}
                   </div>
                   <div className={styles.offerMeta}>
-                    {offer.store === 'steam' && offer.currentPrice !== null && offer.currency === 'IDR'
-                      ? <>
-                          <span>Sumber: Steam Store · Indonesia · IDR</span>
-                          {updatedAt && <span>Harga diambil: <time dateTime={offer.priceUpdatedAt}>{updatedAt}</time></span>}
-                        </>
-                      : <span>Harga regional toko ini belum terverifikasi.</span>}
+                    {offer.currentPrice !== null && offer.currency === 'IDR' ? (
+                      <>
+                        <span>Sumber: {offer.store === 'steam' ? 'Steam Store' : offer.store === 'epic' ? 'Epic Games Store' : 'GOG'} · IDR</span>
+                        {updatedAt && <span>Harga diambil: <time dateTime={offer.priceUpdatedAt}>{updatedAt}</time></span>}
+                      </>
+                    ) : (
+                      <span>Harga {offer.store === 'steam' ? 'Steam' : offer.store === 'epic' ? 'Epic Games Store' : 'GOG'} belum tersedia dari API.</span>
+                    )}
                     {storeUrl && <a className={styles.storeLink} href={storeUrl} target="_blank" rel="noopener noreferrer">
                       Lihat di {offer.store === 'steam' ? 'Steam' : offer.store === 'epic' ? 'Epic Games Store' : 'GOG'} ↗
                       <span className={styles.visuallyHidden}>(buka tab baru)</span>
@@ -184,7 +175,7 @@ function GameDetailPage({ games, priceStatus }: GameDetailPageProps) {
                 </div>
               )
             })}
-            <p className={styles.demoNote}>{priceStatus === 'live' ? 'Harga regional Indonesia dalam IDR dari Steam Store; Epic/GOG belum memiliki sumber regional terverifikasi.' : 'Harga aktual sedang dimuat atau belum tersedia dari API.'}</p>
+            <p className={styles.demoNote}>{priceStatus === 'live' ? 'Harga dan diskon mengikuti data backend GameHub. Toko tanpa data harga ditandai “belum tersedia”.' : 'Harga aktual sedang dimuat atau belum tersedia dari API.'}</p>
           </aside>
         </div>
 

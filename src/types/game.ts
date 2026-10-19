@@ -13,5 +13,4 @@ export type GameCardData = {
   rating: number | null
   genres: readonly string[]
   description?: string | null
-  isDemo?: boolean
 }

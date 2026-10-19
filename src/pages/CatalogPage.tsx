@@ -70,12 +70,7 @@ function CatalogPage({ games, priceStatus, favoriteIds, onToggleFavorite, fixedS
   }
 
   const heading = fixedStore
-    ? {
-        ...STORE_DETAILS[fixedStore],
-        ...(fixedStore === 'epic' && games.some((game) => game.isDemo)
-          ? { description: 'Backend belum menyediakan data Epic; kartu di halaman ini adalah contoh demo.' }
-          : {}),
-      }
+    ? STORE_DETAILS[fixedStore]
     : {
         title: 'Katalog Game',
         description: 'Temukan berbagai game dan bandingkan harga dari beberapa platform',
@@ -112,9 +107,7 @@ function CatalogPage({ games, priceStatus, favoriteIds, onToggleFavorite, fixedS
         <p role="status" style={{ color: '#9cb0c6', padding: '0 16px' }}>
           {priceStatus === 'loading' ? 'Memuat informasi harga aktual…' :
             priceStatus === 'unavailable' ? 'Katalog backend tidak tersedia. Periksa koneksi API.' :
-              games.some((game) => game.isDemo)
-                ? 'Katalog Steam berasal dari backend. Data Epic pada kartu bertanda DATA DEMO dan tidak memiliki harga live.'
-                : 'Data katalog dan penawaran berasal dari backend GameHub.'}
+              'Data katalog, harga, dan diskon berasal dari backend GameHub. Nilai yang tidak tersedia ditandai.'}
         </p>
         <div className={styles.layout}>
           <CatalogFilters
@@ -139,11 +132,15 @@ function CatalogPage({ games, priceStatus, favoriteIds, onToggleFavorite, fixedS
               <div className={styles.empty}>
                 <h2 className={searchStyles.emptyTitle}>Tidak ada game yang cocok</h2>
                 <p className={searchStyles.emptyText}>
-                  {!fixedStore && shops.length === 1 && shops[0] === 'gog'
-                    ? 'Belum ada game yang cocok dengan filter GOG saat ini. Coba pilih toko lain atau ubah filter.'
-                    : isSearching
-                      ? 'Coba kata kunci lain atau ubah pilihan Shops dan Genre.'
-                      : 'Coba ubah pilihan Shops dan Genre untuk melihat game lainnya.'}
+                  {fixedStore === 'epic'
+                    ? 'Backend belum menyediakan penawaran Epic Games saat ini. Data Epic akan tampil otomatis setelah tersedia di API.'
+                    : fixedStore === 'steam'
+                      ? 'Backend belum menyediakan penawaran Steam yang cocok dengan filter saat ini.'
+                      : !fixedStore && shops.length === 1 && shops[0] === 'gog'
+                        ? 'Belum ada game yang cocok dengan filter GOG saat ini. Coba pilih toko lain atau ubah filter.'
+                        : isSearching
+                          ? 'Coba kata kunci lain atau ubah pilihan Shops dan Genre.'
+                          : 'Coba ubah pilihan Shops dan Genre untuk melihat game lainnya.'}
                 </p>
                 <div className={searchStyles.emptyActions}>
                   <button

@@ -9,6 +9,7 @@ type StoreSectionProps = {
   favoriteIds: readonly string[]
   onToggleFavorite: (gameId: string) => void
   onMoreClick?: (store: StoreId) => void
+  emptyMessage?: string
 }
 
 const storeTitles: Record<StoreId, string> = {
@@ -23,6 +24,7 @@ function StoreSection({
   favoriteIds,
   onToggleFavorite,
   onMoreClick,
+  emptyMessage,
 }: StoreSectionProps) {
   const headingId = `${store}-section-title`
 
@@ -40,7 +42,7 @@ function StoreSection({
         aria-hidden="true"
       />
 
-      {games.length > 0 && (
+      {games.length > 0 ? (
         <>
           <div className={styles.games}>
             {games.map((game) => (
@@ -69,7 +71,9 @@ function StoreSection({
             </button>
           </div>
         </>
-      )}
+      ) : emptyMessage ? (
+        <p className={styles.empty} role="status">{emptyMessage}</p>
+      ) : null}
     </section>
   )
 }

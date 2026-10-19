@@ -34,7 +34,6 @@ function GameCard({
           decoding="async"
         />
 
-        {game.isDemo && <span className={styles.demoBadge}>DATA DEMO</span>}
         <button
           className={styles.favoriteButton}
           type="button"
@@ -45,7 +44,7 @@ function GameCard({
           }
           aria-pressed={isFavorite}
           onClick={() => onToggleFavorite?.(game)}
-          disabled={!onToggleFavorite || game.isDemo}
+          disabled={!onToggleFavorite}
         >
           <svg
             viewBox="0 0 24 24"
@@ -110,10 +109,10 @@ function GameCard({
           <p className={`${styles.currentPrice} ${game.currentPrice === null ? styles.currentPriceUnavailable : ''}`}>
             {formatPrice(game.currentPrice)}
           </p>
-          {game.currentPrice !== null && game.currency === 'IDR' && (
-            <p className={styles.priceSource}>
-              {game.isDemo ? 'HARGA DEMO · IDR' : `IDR · ${storeName}`}
-            </p>
+          {game.currentPrice !== null && game.currency === 'IDR' ? (
+            <p className={styles.priceSource}>IDR · {storeName}</p>
+          ) : (
+            <p className={styles.priceSource}>Belum ada data harga dari API</p>
           )}
         </div>
 

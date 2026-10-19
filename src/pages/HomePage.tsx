@@ -13,7 +13,7 @@ type HomePageProps = {
   onToggleFavorite: (gameId: string) => void
 }
 
-function HomePage({ games, onToggleFavorite, favoriteIds }: HomePageProps) {
+function HomePage({ games, priceStatus, onToggleFavorite, favoriteIds }: HomePageProps) {
   const navigate = useNavigate()
   const openStore = (store: StoreId) => navigate(`/stores/${store}`)
 
@@ -39,6 +39,9 @@ function HomePage({ games, onToggleFavorite, favoriteIds }: HomePageProps) {
           favoriteIds={favoriteIds}
           onToggleFavorite={onToggleFavorite}
           onMoreClick={openStore}
+          emptyMessage={priceStatus === 'live'
+            ? 'Belum ada penawaran Epic Games dari API. Bagian ini akan terisi otomatis saat backend menyediakan data Epic.'
+            : undefined}
         />
       </div>
     </main>
