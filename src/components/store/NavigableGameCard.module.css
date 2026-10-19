@@ -1,0 +1,55 @@
+.card {
+  position: relative;
+  min-width: 0;
+  width: min(100%, 337px);
+  height: 100%;
+}
+
+/*
+ * Menutup kartu dengan link asli (mendukung tab baru, Back, keyboard, SEO).
+ * Area 70x75px kanan atas sengaja tidak tertutup agar tombol hati tetap aktif.
+ * GameCard Home/Katalog saat ini mempunyai hati di kanan atas artwork.
+ */
+.openDetail {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: block;
+  border-radius: 16px;
+  clip-path: polygon(
+    0 0,
+    calc(100% - 70px) 0,
+    calc(100% - 70px) 75px,
+    100% 75px,
+    100% 100%,
+    0 100%
+  );
+  cursor: pointer;
+}
+
+.openDetail:hover {
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.openDetail:focus-visible {
+  outline: 3px solid #50b4ea;
+  outline-offset: 4px;
+  clip-path: none;
+}
+
+/* Favorit harus berada di atas overlay link jika sudah diposisikan oleh GameCard. */
+.card :global(button[aria-pressed]) {
+  z-index: 3;
+}
+
+/* Animate the wrapper, not the overlay Link: favorite remains independent. */
+.card { transition: transform 190ms ease, filter 190ms ease; }
+@media (hover: hover) and (pointer: fine) {
+  .card:has(.openDetail:hover) { transform: translateY(-4px); }
+}
+.card:has(.openDetail:active) { transform: translateY(-1px) scale(0.995); }
+
+@media (prefers-reduced-motion: reduce) {
+  .card { transition: none; }
+  .card:has(.openDetail:hover), .card:has(.openDetail:active) { transform: none; }
+}

@@ -1,0 +1,2 @@
+src/assets/detail/rdr2-gameplay.mp4 filter=lfs diff=lfs merge=lfs -text
+src/assets/detail/*-gameplay.mp4 filter=lfs diff=lfs merge=lfs -text
