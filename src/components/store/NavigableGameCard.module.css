@@ -7,8 +7,8 @@
 
 /*
  * Menutup kartu dengan link asli (mendukung tab baru, Back, keyboard, SEO).
- * Area 70x75px kanan atas sengaja tidak tertutup agar tombol hati tetap aktif.
- * GameCard Home/Katalog saat ini mempunyai hati di kanan atas artwork.
+ * Area pojok kanan atas sengaja tidak tertutup agar tombol hati tetap aktif.
+ * Zona mengikuti tombol favorit GameCard: 40x40px pada offset 10,10 + buffer.
  */
 .openDetail {
   position: absolute;
@@ -18,9 +18,9 @@
   border-radius: 16px;
   clip-path: polygon(
     0 0,
-    calc(100% - 70px) 0,
-    calc(100% - 70px) 75px,
-    100% 75px,
+    calc(100% - 50px) 0,
+    calc(100% - 50px) 52px,
+    100% 52px,
     100% 100%,
     0 100%
   );
