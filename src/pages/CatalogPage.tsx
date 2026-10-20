@@ -97,9 +97,6 @@ function CatalogPage({ games, priceStatus, favoriteIds, onToggleFavorite, fixedS
           </svg>
           Kembali
         </Link>
-
-
-
         <div className={styles.heading}>
           <div>
             <h1>{heading.title}</h1>
