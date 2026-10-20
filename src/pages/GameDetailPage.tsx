@@ -86,7 +86,7 @@ function GameDetailPage({ games, priceStatus }: GameDetailPageProps) {
   // Sumber utama harga adalah API detail Laravel.
 // Katalog hanya digunakan selama detail belum selesai dimuat.
 const apiOffers =
-  backendDetail?.slug === gameId
+  backendDetail && backendDetail.slug === gameId
     ? mapBackendGame(backendDetail)
     : null
 
