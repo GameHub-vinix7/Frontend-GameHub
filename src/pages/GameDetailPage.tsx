@@ -8,7 +8,7 @@ import type { GameCardData } from '../types/game'
 import { discountPercent, formatPrice } from '../lib/prices'
 import { usePriceHistory } from '../hooks/usePriceHistory'
 import { getGameDetailContent, type SystemSpec } from '../data/gameDetails'
-import { apiRequest, mapSystemRequirements, type BackendGame } from '../lib/backendApi'
+import { apiRequest, mapBackendGame, mapSystemRequirements, type BackendGame } from '../lib/backendApi'
 import { preferredHistoryStore } from '../lib/priceHistoryPath'
 import { verifiedStoreUrl } from '../data/verifiedStoreLinks'
 import styles from './GameDetailPage.module.css'
@@ -59,8 +59,8 @@ type GameDetailPageProps = {
 function GameDetailPage({ games, priceStatus }: GameDetailPageProps) {
   const { gameId } = useParams<'gameId'>()
   const location = useLocation()
-  const offers = games.filter((item) => item.id === gameId)
-  const preferredStore = preferredHistoryStore(offers.map((offer) => offer.store))
+  const catalogOffers = games.filter((item) => item.id === gameId)
+  const preferredStore = preferredHistoryStore(catalogOffers.map((offer) => offer.store))
   const [descriptionOpen, setDescriptionOpen] = useState(false)
   const [requirementsOpen, setRequirementsOpen] = useState(false)
   const [historySelection, setHistorySelection] = useState({ gameId, preferredStore, store: preferredStore })
@@ -83,9 +83,38 @@ function GameDetailPage({ games, priceStatus }: GameDetailPageProps) {
     return () => controller.abort()
   }, [gameId])
 
-  // ID merepresentasikan GAME, bukan listing tokonya.
-  const history = usePriceHistory(gameId, historyStore)
-  const game = offers[0]
+  // Sumber utama harga adalah API detail Laravel.
+// Katalog hanya digunakan selama detail belum selesai dimuat.
+const apiOffers =
+  backendDetail?.slug === gameId
+    ? mapBackendGame(backendDetail)
+    : null
+
+const knownOffers = apiOffers ?? catalogOffers
+const game = knownOffers[0] ?? catalogOffers[0]
+
+// Selalu tampilkan tiga slot toko, tanpa membuat harga palsu.
+const offers: GameCardData[] = game
+  ? (['steam', 'epic', 'gog'] as const).map((store) => {
+      const actualOffer = knownOffers.find(
+        (offer) => offer.store === store,
+      )
+
+      if (actualOffer) return actualOffer
+
+      return {
+        ...game,
+        store,
+        originalPrice: null,
+        currentPrice: null,
+        currency: undefined,
+        dealUrl: undefined,
+        priceUpdatedAt: undefined,
+      }
+    })
+  : []
+
+const history = usePriceHistory(gameId, historyStore)
 
   if (!game) {
     return (
