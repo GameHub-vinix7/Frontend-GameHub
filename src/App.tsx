@@ -43,9 +43,6 @@ function App() {
     navigate(`/search?${params.toString()}`)
   }
 
-  // Pertahankan keputusan layout sebelumnya: Navbar tidak ditampilkan di detail game.
-  const isGameDetail = /^\/games\/[^/]+\/?$/.test(location.pathname)
-
   return (
     <>
       {!isGameDetail && (

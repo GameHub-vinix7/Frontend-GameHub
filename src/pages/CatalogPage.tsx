@@ -1,3 +1,4 @@
+
 import { Link, useLocation, useSearchParams } from 'react-router'
 
 import CatalogFilters from '../components/catalog/CatalogFilters'
@@ -11,6 +12,7 @@ import type { GenreFilter, ShopFilter } from '../data/catalogOptions'
 import type { StoreId } from '../types/game'
 import styles from './CatalogPage.module.css'
 import searchStyles from './CatalogSearch.module.css'
+
 
 const PAGE_SIZE = 6
 
@@ -96,6 +98,12 @@ function CatalogPage({ games, priceStatus, favoriteIds, onToggleFavorite, fixedS
           Kembali
         </Link>
 
+      <div className={styles.backRow}>
+        <Link to="/" className={styles.backLink}>
+          ← Kembali
+        </Link>
+      </div>
+
         <div className={styles.heading}>
           <div>
             <h1>{heading.title}</h1>
@@ -147,11 +155,13 @@ function CatalogPage({ games, priceStatus, favoriteIds, onToggleFavorite, fixedS
                     ? 'Backend belum menyediakan penawaran Epic Games saat ini. Data Epic akan tampil otomatis setelah tersedia di API.'
                     : fixedStore === 'steam'
                       ? 'Backend belum menyediakan penawaran Steam yang cocok dengan filter saat ini.'
-                      : !fixedStore && shops.length === 1 && shops[0] === 'gog'
-                        ? 'Belum ada game yang cocok dengan filter GOG saat ini. Coba pilih toko lain atau ubah filter.'
-                        : isSearching
-                          ? 'Coba kata kunci lain atau ubah pilihan Shops dan Genre.'
-                          : 'Coba ubah pilihan Shops dan Genre untuk melihat game lainnya.'}
+                      : fixedStore === 'gog'
+                        ? 'Belum ada penawaran GOG yang cocok di backend. Sinkronkan game GOG untuk menampilkannya di sini.'
+                        : !fixedStore && shops.length === 1 && shops[0] === 'gog'
+                          ? 'Belum ada game yang cocok dengan filter GOG saat ini. Coba pilih toko lain atau ubah filter.'
+                          : isSearching
+                            ? 'Coba kata kunci lain atau ubah pilihan Shops dan Genre.'
+                            : 'Coba ubah pilihan Shops dan Genre untuk melihat game lainnya.'}
                 </p>
                 <div className={searchStyles.emptyActions}>
                   <button

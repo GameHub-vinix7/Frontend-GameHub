@@ -44,6 +44,21 @@ function HomePage({ games, priceStatus, onToggleFavorite, favoriteIds }: HomePag
             : undefined}
         />
       </div>
+
+      <div id="gog">
+        <StoreSection
+          store="gog"
+          games={games.filter((game) => game.store === 'gog')}
+          favoriteIds={favoriteIds}
+          onToggleFavorite={onToggleFavorite}
+          onMoreClick={openStore}
+          emptyMessage={priceStatus === 'live'
+            ? 'Belum ada penawaran GOG di backend. Sinkronkan game GOG agar tampil di sini.'
+            : priceStatus === 'unavailable'
+              ? 'Data katalog belum dapat dimuat dari backend.'
+              : undefined}
+        />
+      </div>
     </main>
   )
 }

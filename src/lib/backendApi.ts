@@ -11,6 +11,7 @@ export type BackendOffer = {
 }
 
 export type BackendSystemRequirement = {
+  platform?: string
   type?: string
   operating_system?: string | null
   processor?: string | null
@@ -19,6 +20,7 @@ export type BackendSystemRequirement = {
   network?: string | null
   storage?: string | null
   sound_card?: string | null
+  other?: string | null
 }
 
 export type BackendGame = {
@@ -137,6 +139,7 @@ const REQUIREMENT_FIELDS: ReadonlyArray<[string, keyof BackendSystemRequirement]
   ['Jaringan', 'network'],
   ['Penyimpanan', 'storage'],
   ['Kartu suara', 'sound_card'],
+  ['Lainnya', 'other'],
 ]
 
 /** Converts backend system requirements into labelled specs, skipping empty fields. */
@@ -148,7 +151,10 @@ export function mapSystemRequirements(
     .filter((requirement) => requirement.type === type)
     .flatMap((requirement) => REQUIREMENT_FIELDS.flatMap(([label, field]) => {
       const value = requirement[field]
-      return typeof value === 'string' && value.trim() ? [{ label, value }] : []
+      const platform = typeof requirement.platform === 'string' ? requirement.platform.trim() : ''
+      return typeof value === 'string' && value.trim()
+        ? [{ label: platform ? `${platform} · ${label}` : label, value }]
+        : []
     }))
 }
 

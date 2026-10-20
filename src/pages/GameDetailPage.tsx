@@ -9,6 +9,7 @@ import { discountPercent, formatPrice } from '../lib/prices'
 import { usePriceHistory } from '../hooks/usePriceHistory'
 import { getGameDetailContent, type SystemSpec } from '../data/gameDetails'
 import { apiRequest, mapSystemRequirements, type BackendGame } from '../lib/backendApi'
+import { preferredHistoryStore } from '../lib/priceHistoryPath'
 import { verifiedStoreUrl } from '../data/verifiedStoreLinks'
 import styles from './GameDetailPage.module.css'
 
@@ -58,9 +59,14 @@ type GameDetailPageProps = {
 function GameDetailPage({ games, priceStatus }: GameDetailPageProps) {
   const { gameId } = useParams<'gameId'>()
   const location = useLocation()
+  const offers = games.filter((item) => item.id === gameId)
+  const preferredStore = preferredHistoryStore(offers.map((offer) => offer.store))
   const [descriptionOpen, setDescriptionOpen] = useState(false)
   const [requirementsOpen, setRequirementsOpen] = useState(false)
-  const [historyStore, setHistoryStore] = useState<PriceHistoryStore>('steam')
+  const [historySelection, setHistorySelection] = useState({ gameId, preferredStore, store: preferredStore })
+  const historyStore = historySelection.gameId === gameId && historySelection.preferredStore === preferredStore
+    ? historySelection.store
+    : preferredStore
   const [backendDetail, setBackendDetail] = useState<BackendGame | null>(null)
 
   useEffect(() => {
@@ -79,7 +85,6 @@ function GameDetailPage({ games, priceStatus }: GameDetailPageProps) {
 
   // ID merepresentasikan GAME, bukan listing tokonya.
   const history = usePriceHistory(gameId, historyStore)
-  const offers = games.filter((item) => item.id === gameId)
   const game = offers[0]
 
   if (!game) {
@@ -245,7 +250,7 @@ function GameDetailPage({ games, priceStatus }: GameDetailPageProps) {
             <h2 id="history-title">Riwayat harga &amp; diskon</h2>
             <label className={styles.historySelector}>
               <span className={styles.visuallyHidden}>Pilih platform riwayat harga</span>
-              <select value={historyStore} onChange={(event) => setHistoryStore(event.target.value as PriceHistoryStore)}>
+              <select value={historyStore} onChange={(event) => setHistorySelection({ gameId, preferredStore, store: event.target.value as PriceHistoryStore })}>
                 <option value="steam">Steam</option>
                 <option value="epic">Epic</option>
                 <option value="gog">GOG</option>

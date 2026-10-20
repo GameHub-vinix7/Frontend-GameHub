@@ -125,6 +125,12 @@ test('system requirements come from the API and skip missing fields', () => {
   assert.deepEqual(mapSystemRequirements([], 'recommended'), [])
 })
 
+test('system requirements label their source storefront when provided', () => {
+  assert.deepEqual(mapSystemRequirements([{
+    platform: 'GOG', type: 'minimum', processor: 'Dual Core 2.0 GHz',
+  }], 'minimum'), [{ label: 'GOG · Prosesor', value: 'Dual Core 2.0 GHz' }])
+})
+
 test('Epic storefront view uses backend identity and never duplicates a real Epic offer', () => {
   const games = [
     {
