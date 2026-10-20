@@ -1,4 +1,4 @@
-import { Link, useSearchParams } from 'react-router'
+import { Link, useLocation, useSearchParams } from 'react-router'
 
 import CatalogFilters from '../components/catalog/CatalogFilters'
 import Pagination from '../components/catalog/Pagination'
@@ -39,6 +39,7 @@ type CatalogPageProps = {
 
 function CatalogPage({ games, priceStatus, favoriteIds, onToggleFavorite, fixedStore }: CatalogPageProps) {
   const [searchParams, setSearchParams] = useSearchParams()
+  const location = useLocation()
   const query = (searchParams.get('q') ?? '').trim()
   const isSearching = query.length > 0
 
@@ -76,14 +77,24 @@ function CatalogPage({ games, priceStatus, favoriteIds, onToggleFavorite, fixedS
         description: 'Temukan berbagai game dan bandingkan harga dari beberapa platform',
       }
 
+  const state: unknown = location.state
+  let backTo = '/'
+  if (state && typeof state === 'object' && 'from' in state) {
+    const from = (state as { from: unknown }).from
+    if (typeof from === 'string' && from.startsWith('/') && !from.startsWith('//') && !from.includes('\\')) {
+      backTo = from
+    }
+  }
+
   return (
     <main className={styles.page}>
       <div className={styles.container}>
-        {fixedStore && (
-          <Link className={styles.backLink} to="/">
-            <span aria-hidden="true">←</span> Kembali
-          </Link>
-        )}
+        <Link className={styles.backLink} to={backTo}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+            <path d="m12 4-8 8 8 8M4 12h17" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          Kembali
+        </Link>
 
         <div className={styles.heading}>
           <div>

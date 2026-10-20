@@ -1,12 +1,10 @@
-
 /*
  * GameHub Footer
- * Desktop reference: Figma 1440 × 326 px
+ * Disclaimer text only — logo/brand dihapus.
  */
 
 .footer {
   width: 100%;
-  min-height: 326px;
   margin-top: 52px;
 
   background: linear-gradient(
@@ -24,60 +22,8 @@
 
   width: 100%;
   max-width: 1441px;
-  min-height: 326px;
   margin-inline: auto;
-  padding: 53px 70px 50px 93px;
-}
-
-/* Brand */
-
-.brand {
-  flex: 0 0 208px;
-  min-width: 0;
-}
-
-.logo {
-  display: inline-block;
-
-  color: #ffffff;
-  font-family: 'Poppins', system-ui, sans-serif;
-  font-size: 40px;
-  font-weight: 700;
-  line-height: 60px;
-  letter-spacing: 0;
-
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.logoAccent {
-  color: #a3e635;
-}
-
-/* Short line under logo */
-
-.brandLine {
-  display: block;
-
-  width: 54px;
-  height: 4px;
-  margin-top: 18px;
-  margin-left: 3px;
-
-  background: #174f77;
-}
-
-/* Vertical separator */
-
-.separator {
-  flex: 0 0 3px;
-
-  width: 3px;
-  height: 144px;
-  margin-top: 13px;
-  margin-left: 68px;
-
-  background: #003357;
+  padding: 48px 70px 48px 93px;
 }
 
 /* Disclaimer text */
@@ -85,10 +31,9 @@
 .description {
   flex: 1;
   min-width: 0;
-  max-width: 937px;
+  max-width: 1100px;
 
-  margin-left: 60px;
-  padding-top: 13px;
+  margin: 0;
 
   color: #b5c5d8;
   font-family: 'Montserrat', system-ui, sans-serif;
@@ -105,13 +50,6 @@
   margin-top: 20px;
 }
 
-/* Keyboard accessibility */
-
-.logo:focus-visible {
-  outline: 2px solid #38bdf8;
-  outline-offset: 4px;
-}
-
 /* Tablet */
 
 @media (max-width: 1100px) {
@@ -119,24 +57,7 @@
     padding: 44px 40px 46px 48px;
   }
 
-  .brand {
-    flex-basis: 180px;
-  }
-
-  .logo {
-    font-size: 36px;
-    line-height: 54px;
-  }
-
-  .separator {
-    margin-left: 32px;
-    margin-top: 8px;
-  }
-
   .description {
-    margin-left: 32px;
-    padding-top: 8px;
-
     font-size: 16px;
     line-height: 24px;
   }
@@ -146,7 +67,6 @@
 
 @media (max-width: 700px) {
   .footer {
-    min-height: 0;
     margin-top: 40px;
   }
 
@@ -154,37 +74,12 @@
     flex-direction: column;
     gap: 24px;
 
-    min-height: 0;
     padding: 36px 24px 44px;
-  }
-
-  .brand {
-    flex: none;
-    width: auto;
-  }
-
-  .logo {
-    font-size: 32px;
-    line-height: 48px;
-  }
-
-  .brandLine {
-    margin-top: 12px;
-  }
-
-  .separator {
-    flex: none;
-
-    width: 100%;
-    height: 3px;
-    margin: 0;
   }
 
   .description {
     width: 100%;
     max-width: 100%;
-    margin: 0;
-    padding: 0;
 
     font-size: 14px;
     line-height: 22px;

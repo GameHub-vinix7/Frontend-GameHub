@@ -4,26 +4,6 @@ function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
-        <div className={styles.brand}>
-          <a
-            href="/"
-            className={styles.logo}
-            aria-label="GameHub, kembali ke beranda"
-          >
-            Game<span className={styles.logoAccent}>Hub</span>
-          </a>
-
-          <span
-            className={styles.brandLine}
-            aria-hidden="true"
-          />
-        </div>
-
-        <span
-          className={styles.separator}
-          aria-hidden="true"
-        />
-
         <div className={styles.description}>
           <p>
             Game Hub adalah direktori &amp; tracker diskon game

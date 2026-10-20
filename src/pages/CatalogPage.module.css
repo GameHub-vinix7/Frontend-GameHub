@@ -36,18 +36,40 @@
 }
 
 
-/* Khusus halaman Steam/Epic. Halaman Katalog umum tidak berubah. */
+/* Tombol kembali — disamakan dengan halaman detail game. */
 .backLink {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 18px;
-  padding: 8px 12px;
+  justify-content: center;
+  gap: 13px;
+  min-width: 170px;
+  min-height: 42px;
+  margin-bottom: 28px;
+  padding: 8px 14px;
   border: 1px solid #144161;
   border-radius: 10px;
+  background: #000a11;
   color: #fff;
-  font: 600 16px / 1.4 'Montserrat', sans-serif;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 600;
   text-decoration: none;
 }
-.backLink:hover { background: rgba(0, 99, 169, 0.18); }
-.backLink:focus-visible { outline: 2px solid #38bdf8; outline-offset: 3px; }
+.backLink svg {
+  width: 32px;
+  height: 28px;
+}
+.backLink:hover { background: #08304d; }
+.backLink:focus-visible { outline: 2px solid #50b4ea; outline-offset: 3px; }
+
+@media (max-width: 600px) {
+  .backLink {
+    min-width: 130px;
+    margin-bottom: 22px;
+    font-size: 15px;
+  }
+  .backLink svg {
+    width: 24px;
+    height: 24px;
+  }
+}
