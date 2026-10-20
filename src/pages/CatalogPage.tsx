@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 import { Link, useLocation, useSearchParams } from 'react-router'
 
-=======
-import { Link, useSearchParams } from 'react-router'
->>>>>>> 79e6e23 (fix bugs)
 import CatalogFilters from '../components/catalog/CatalogFilters'
 import Pagination from '../components/catalog/Pagination'
 import SortDropdown from '../components/catalog/SortDropdown'
