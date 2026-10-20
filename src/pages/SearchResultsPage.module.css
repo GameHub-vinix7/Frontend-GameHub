@@ -13,6 +13,32 @@
   margin-inline: auto;
 }
 
+/* Tombol kembali — disamakan dengan halaman detail game. */
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  min-width: 170px;
+  min-height: 42px;
+  margin-bottom: 28px;
+  padding: 8px 14px;
+  border: 1px solid #144161;
+  border-radius: 10px;
+  background: #000a11;
+  color: #fff;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.backLink svg {
+  width: 32px;
+  height: 28px;
+}
+.backLink:hover { background: #08304d; }
+.backLink:focus-visible { outline: 2px solid #50b4ea; outline-offset: 3px; }
+
 .heading h1 {
   margin: 0;
   font-size: 36px;
@@ -95,8 +121,17 @@
 }
 
 @media (max-width: 620px) {
-  .page { padding: 28px 14px 60px; }
+  .page { padding: 20px 14px 60px; }
   .grid { grid-template-columns: minmax(0, 1fr); }
   .heading h1 { font-size: 26px; line-height: 34px; }
   .divider { margin: 10px 0 18px; }
+  .backLink {
+    min-width: 130px;
+    margin-bottom: 22px;
+    font-size: 15px;
+  }
+  .backLink svg {
+    width: 24px;
+    height: 24px;
+  }
 }
