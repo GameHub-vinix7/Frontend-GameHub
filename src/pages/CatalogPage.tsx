@@ -98,11 +98,7 @@ function CatalogPage({ games, priceStatus, favoriteIds, onToggleFavorite, fixedS
           Kembali
         </Link>
 
-      <div className={styles.backRow}>
-        <Link to="/" className={styles.backLink}>
-          ← Kembali
-        </Link>
-      </div>
+
 
         <div className={styles.heading}>
           <div>
