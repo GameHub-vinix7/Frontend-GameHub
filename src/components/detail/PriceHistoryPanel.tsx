@@ -159,7 +159,9 @@ function EmptyHistory({ store, status }: Pick<Props, 'store' | 'status'>) {
             ? 'Mengambil observasi harga dari database.'
             : store === 'steam'
               ? 'Pencatatan Steam belum menghasilkan observasi untuk game ini. Data akan muncul setelah berhasil direkam.'
-              : 'Belum tersedia sumber harga regional Indonesia yang terverifikasi untuk toko ini.'}
+              : store === 'gog'
+                ? 'Belum ada observasi harga GOG yang tercatat. Data akan muncul setelah sinkronisasi GOG berhasil.'
+                : 'Belum tersedia sumber harga regional Indonesia yang terverifikasi untuk Epic Games.'}
       </p>
     </div>
   )

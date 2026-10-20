@@ -1,6 +1,7 @@
 import { Navigate, useParams } from 'react-router'
 import CatalogPage from './CatalogPage'
 import type { GameCardData } from '../types/game'
+import { isStoreCatalogId } from '../data/catalogOptions'
 
 type StoreCatalogPageProps = {
   games: readonly GameCardData[]
@@ -12,7 +13,7 @@ type StoreCatalogPageProps = {
 function StoreCatalogPage({ games, priceStatus, favoriteIds, onToggleFavorite }: StoreCatalogPageProps) {
   const { storeId } = useParams<'storeId'>()
 
-  if (storeId !== 'steam' && storeId !== 'epic') {
+  if (!isStoreCatalogId(storeId)) {
     return <Navigate to="/catalog" replace />
   }
 

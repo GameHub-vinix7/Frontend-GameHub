@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import GameGrid from '../components/store/GameGrid'
 import type { GameCardData } from '../types/game'
 import styles from './FavoritesPage.module.css'
@@ -20,6 +21,12 @@ function FavoritesPage({ games, favoriteIds, onToggleFavorite }: FavoritesPagePr
   return (
     <main className={styles.page}>
       <div className={styles.container}>
+        
+      <div className={styles.backRow}>
+        <Link to="/" className={styles.backLink}>
+          ← Kembali
+        </Link>
+      </div>
         <h1>Favorit Saya ({favoriteGames.length})</h1>
         <div className={styles.divider} aria-hidden="true" />
         {favoriteGames.length ? (

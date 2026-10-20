@@ -29,11 +29,16 @@
 /* Disclaimer text */
 
 .description {
-  flex: 1;
+  flex: 0 1 937px;
   min-width: 0;
   max-width: 1100px;
 
+<<<<<<< HEAD
   margin: 0;
+=======
+  margin: 13px 0 0;
+  padding: 0;
+>>>>>>> 79e6e23 (fix bugs)
 
   color: #b5c5d8;
   font-family: 'Montserrat', system-ui, sans-serif;
@@ -57,6 +62,23 @@
     padding: 44px 40px 46px 48px;
   }
 
+<<<<<<< HEAD
+=======
+  .brand {
+    flex-basis: 208px;
+  }
+
+  .logo {
+    font-size: 36px;
+    line-height: 54px;
+  }
+
+  .separator {
+    margin-left: 32px;
+    margin-top: 8px;
+  }
+
+>>>>>>> 79e6e23 (fix bugs)
   .description {
     font-size: 16px;
     line-height: 24px;

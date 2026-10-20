@@ -42,17 +42,12 @@ function App() {
     navigate(`/catalog?${params.toString()}`)
   }
 
-  // Pertahankan keputusan layout sebelumnya: Navbar tidak ditampilkan di detail game.
-  const isGameDetail = /^\/games\/[^/]+\/?$/.test(location.pathname)
-
   return (
     <>
-      {!isGameDetail && (
-        <Navbar
-          onFavoriteClick={() => navigate('/favorites')}
-          onSearch={handleSearch}
-        />
-      )}
+      <Navbar
+        onFavoriteClick={() => navigate('/favorites')}
+        onSearch={handleSearch}
+      />
 
       <div key={location.pathname} className={transitionStyles.routeEnter}>
         <Routes>

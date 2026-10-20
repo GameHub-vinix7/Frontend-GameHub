@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { API_BASE, addEpicStorefrontCards, apiRequest, mapBackendGames, type BackendGame } from '../lib/backendApi'
+import { API_BASE, apiRequest, mapBackendGames, type BackendGame } from '../lib/backendApi'
+import { epicPreviewGames } from '../data/demoGames'
 import type { GameCardData } from '../types/game'
 
 type PriceStatus = 'loading' | 'live' | 'unavailable'
@@ -23,12 +24,17 @@ export function useLivePrices(): LivePrices {
           page += 1
         } while (page <= lastPage)
         if (!controller.signal.aborted) {
-          setResult({ games: addEpicStorefrontCards(all, mapBackendGames(all)), status: 'live', fetchedAt: new Date().toISOString() })
+          const liveGames = mapBackendGames(all)
+          const hasEpicOffers = liveGames.some((game) => game.store === 'epic')
+          const games = hasEpicOffers
+            ? liveGames
+            : [...liveGames, ...epicPreviewGames.map((game) => ({ ...game, isDemo: true }))]
+          setResult({ games, status: 'live', fetchedAt: new Date().toISOString() })
         }
       } catch (error) {
         if (controller.signal.aborted) return
         console.warn('GameHub backend:', error)
-        setResult({ games: [], status: 'unavailable', fetchedAt: null })
+        setResult({ games: [...epicPreviewGames].map((game) => ({ ...game, isDemo: true })), status: 'unavailable', fetchedAt: null })
       }
     }
     void load()

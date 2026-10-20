@@ -74,9 +74,21 @@
   color: #fff;
 }
 .storeIcon { flex: 0 0 auto; width: clamp(16px, 6.4cqw, 23px); height: clamp(16px, 6.4cqw, 23px); color: #fff; }
-.storeLabel { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 10px; font-weight: 700; }
 .discountValue { flex-shrink: 0; color: #fff; font-size: clamp(14px, 5.6cqw, 19px); font-weight: 700; line-height: 1; white-space: nowrap; }
 .epicIcon { display: block; width: clamp(16px, 6.4cqw, 23px); height: clamp(16px, 6.4cqw, 23px); object-fit: contain; filter: brightness(0) invert(1); }
+.gogIcon {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: clamp(19px, 7.5cqw, 27px);
+  height: clamp(16px, 6.4cqw, 23px);
+  color: #fff;
+  font-family: Arial, sans-serif;
+  font-size: clamp(9px, 3.8cqw, 13px);
+  font-weight: 900;
+  letter-spacing: -0.08em;
+  line-height: 1;
+}
 
 .body {
   display: flex;
