@@ -22,6 +22,7 @@ function App() {
   const { games, status } = useLivePrices()
   const [notices, setNotices] = useState<FavoriteNotice[]>([])
   const nextNoticeId = useRef(0)
+  const isGameDetail = location.pathname.startsWith('/games/')
 
   const handleFavoriteToggle = async (gameId: string) => {
     const action = favoriteIds.includes(gameId) ? 'removed' : 'added'
