@@ -9,6 +9,7 @@ import { useFavorites } from './hooks/useFavorites'
 import { useLivePrices } from './hooks/useLivePrices'
 import HomePage from './pages/HomePage'
 import CatalogPage from './pages/CatalogPage'
+import SearchResultsPage from './pages/SearchResultsPage'
 import FavoritesPage from './pages/FavoritesPage'
 import StoreCatalogPage from './pages/StoreCatalogPage'
 import GameDetailPage from './pages/GameDetailPage'
@@ -39,7 +40,7 @@ function App() {
 
   const handleSearch = (query: string) => {
     const params = new URLSearchParams({ q: query.trim() })
-    navigate(`/catalog?${params.toString()}`)
+    navigate(`/search?${params.toString()}`)
   }
 
   // Pertahankan keputusan layout sebelumnya: Navbar tidak ditampilkan di detail game.
@@ -51,6 +52,7 @@ function App() {
         <Navbar
           onFavoriteClick={() => navigate('/favorites')}
           onSearch={handleSearch}
+          searchValue={new URLSearchParams(location.search).get('q') ?? ''}
         />
       )}
 
@@ -71,6 +73,17 @@ function App() {
             path="/catalog"
             element={
               <CatalogPage
+                games={games}
+                priceStatus={status}
+                favoriteIds={favoriteIds}
+                onToggleFavorite={handleFavoriteToggle}
+              />
+            }
+          />
+          <Route
+            path="/search"
+            element={
+              <SearchResultsPage
                 games={games}
                 priceStatus={status}
                 favoriteIds={favoriteIds}

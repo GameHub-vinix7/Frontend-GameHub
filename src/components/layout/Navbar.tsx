@@ -5,11 +5,14 @@ import styles from './Navbar.module.css'
 type NavbarProps = {
   onSearch?: (query: string) => void
   onFavoriteClick?: () => void
+  /** Query aktif dari URL, dipakai agar kolom pencarian menampilkan kata kunci saat ini. */
+  searchValue?: string
 }
 
 function Navbar({
   onSearch,
   onFavoriteClick,
+  searchValue = '',
 }: NavbarProps) {
   const handleSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -70,6 +73,8 @@ function Navbar({
             placeholder="Cari..."
             aria-label="Cari game"
             disabled={!onSearch}
+            key={searchValue}
+            defaultValue={searchValue}
           />
         </form>
 
