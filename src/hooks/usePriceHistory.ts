@@ -19,7 +19,7 @@ export function usePriceHistory(gameId: string | undefined, store: StoreId): His
         const platform = platformNameForHistory(store)
         const series = result.series?.find((item) => item.platform.toLowerCase() === platform.toLowerCase())
         const points = (series?.points ?? []).flatMap((point) => {
-          const observedAt = Date.parse(point.recorded_at)
+          const observedAt = Math.floor(Date.parse(point.recorded_at) / 1000)
           if (!Number.isFinite(observedAt) || !Number.isFinite(point.final_price) || !Number.isFinite(point.original_price)) return []
           return [{ observedAt, currentPrice: point.final_price, originalPrice: point.original_price }]
         })

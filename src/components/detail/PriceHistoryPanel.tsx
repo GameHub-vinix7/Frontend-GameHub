@@ -250,7 +250,7 @@ export default function PriceHistoryPanel({ store, source, status, points }: Pro
         </table>
       </div>
       <p className={styles.note}>
-        Semua angka berasal dari pengamatan yang berhasil disimpan di D1, bukan data simulasi.
+        Semua angka berasal dari pengamatan harga yang tercatat melalui backend GameHub, bukan data simulasi.
         Garis hanya menghubungkan pengamatan berjarak maksimal 12 jam; periode tanpa catatan tidak direka ulang.
         Harga terakhir tercatat bisa berbeda dari harga yang sedang berlaku di toko.
       </p>
