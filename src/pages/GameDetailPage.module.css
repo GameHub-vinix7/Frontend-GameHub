@@ -1,6 +1,6 @@
 .page {
   box-sizing: border-box;
-  padding: 72px 36px 92px;
+  padding: 72px 36px 64px;
   color: #fff;
   background: linear-gradient(296.82deg, #00010f 0%, #00101b 100%);
   font-family: 'Montserrat', sans-serif;
@@ -374,7 +374,7 @@
 
 @media (max-width: 1180px) {
   .page {
-    padding: 48px 24px 90px;
+    padding: 48px 24px 56px;
   }
 
   .overview {
@@ -439,7 +439,7 @@
 }
 @media (max-width: 600px) {
   .page {
-    padding: 24px 16px 64px;
+    padding: 24px 16px 40px;
   }
 
   .backLink {

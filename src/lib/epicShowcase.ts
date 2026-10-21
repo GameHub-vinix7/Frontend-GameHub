@@ -40,3 +40,8 @@ export function withEpicShowcase(
     ...offers.filter((offer) => offer.store === 'epic' && !featuredIds.has(offer.id)),
   ]
 }
+
+/** Identifies cards with bundled media only; never request a nonexistent backend detail. */
+export function isReferenceOnlyGame(cards: readonly GameCardData[]): boolean {
+  return cards.length > 0 && cards.every((card) => card.previewOnly === true)
+}

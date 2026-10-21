@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { withEpicShowcase } from '../src/lib/epicShowcase.ts'
+import { isReferenceOnlyGame, withEpicShowcase } from '../src/lib/epicShowcase.ts'
 
 const reference = (id) => ({
   id, title: id, coverSrc: `local/${id}.webp`, store: 'steam',
@@ -54,4 +54,21 @@ test('other verified Epic and GOG offers are retained without duplicates', () =>
     'battlefield-6', 'detroit-become-human', 'sekiro-shadows-die-twice', 'red-dead-redemption-2', 'hades',
   ])
   assert.equal(cards.filter((card) => card.store === 'gog')[0].currentPrice, 123000)
+})
+
+
+test('reference-only Epic cards can use bundled detail media without a backend request', () => {
+  const cards = withEpicShowcase([], [], featured)
+  assert.ok(cards.every((card) => card.previewOnly))
+  for (const card of cards) {
+    assert.equal(isReferenceOnlyGame([card]), true)
+    assert.equal(card.currentPrice, null)
+  }
+})
+
+test('verified backend cards still require live API detail and history', () => {
+  const real = { ...reference('control-ultimate-edition'), store: 'steam', previewOnly: undefined }
+  assert.equal(isReferenceOnlyGame([]), false)
+  assert.equal(isReferenceOnlyGame([real]), false)
+  assert.equal(isReferenceOnlyGame([{ ...real, previewOnly: true }, real]), false)
 })

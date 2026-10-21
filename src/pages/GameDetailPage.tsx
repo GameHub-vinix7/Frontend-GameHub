@@ -9,6 +9,7 @@ import { discountPercent, formatPrice } from '../lib/prices'
 import { usePriceHistory } from '../hooks/usePriceHistory'
 import { getGameDetailContent, type SystemSpec } from '../data/gameDetails'
 import { apiRequest, mapBackendGame, mapSystemRequirements, type BackendGame } from '../lib/backendApi'
+import { isReferenceOnlyGame } from '../lib/epicShowcase'
 import { preferredHistoryStore } from '../lib/priceHistoryPath'
 import { verifiedStoreUrl } from '../data/verifiedStoreLinks'
 import styles from './GameDetailPage.module.css'
@@ -60,6 +61,7 @@ function GameDetailPage({ games, priceStatus }: GameDetailPageProps) {
   const { gameId } = useParams<'gameId'>()
   const location = useLocation()
   const catalogOffers = games.filter((item) => item.id === gameId)
+  const referenceOnly = isReferenceOnlyGame(catalogOffers)
   const preferredStore = preferredHistoryStore(catalogOffers.map((offer) => offer.store))
   const [descriptionOpen, setDescriptionOpen] = useState(false)
   const [requirementsOpen, setRequirementsOpen] = useState(false)
@@ -70,7 +72,7 @@ function GameDetailPage({ games, priceStatus }: GameDetailPageProps) {
   const [backendDetail, setBackendDetail] = useState<BackendGame | null>(null)
 
   useEffect(() => {
-    if (!gameId) return
+    if (!gameId || priceStatus === 'loading' || referenceOnly) return
     const controller = new AbortController()
     void apiRequest<{ data?: BackendGame } | BackendGame>(`/games/${encodeURIComponent(gameId)}`, { signal: controller.signal })
       .then((response) => {
@@ -81,20 +83,20 @@ function GameDetailPage({ games, priceStatus }: GameDetailPageProps) {
         if (!controller.signal.aborted) console.warn('GameHub game detail:', error)
       })
     return () => controller.abort()
-  }, [gameId])
+  }, [gameId, priceStatus, referenceOnly])
 
   // Sumber utama harga adalah API detail Laravel.
-// Katalog hanya digunakan selama detail belum selesai dimuat.
-const apiOffers =
+  // Katalog hanya digunakan selama detail belum selesai dimuat.
+  const apiOffers =
   backendDetail && backendDetail.slug === gameId
     ? mapBackendGame(backendDetail)
     : null
 
-const knownOffers = apiOffers ?? catalogOffers
-const game = knownOffers[0] ?? catalogOffers[0]
+  const knownOffers = apiOffers ?? catalogOffers
+  const game = knownOffers[0] ?? catalogOffers[0]
 
-// Selalu tampilkan tiga slot toko, tanpa membuat harga palsu.
-const offers: GameCardData[] = game
+  // Selalu tampilkan tiga slot toko, tanpa membuat harga palsu.
+  const offers: GameCardData[] = game
   ? (['steam', 'epic', 'gog'] as const).map((store) => {
       const actualOffer = knownOffers.find(
         (offer) => offer.store === store,
@@ -114,14 +116,14 @@ const offers: GameCardData[] = game
     })
   : []
 
-const history = usePriceHistory(gameId, historyStore)
+  const history = usePriceHistory(!referenceOnly && priceStatus !== 'loading' ? gameId : undefined, historyStore)
 
   if (!game) {
     return (
       <main className={styles.page}>
         <div className={styles.container}>
-          <h1>Game tidak ditemukan</h1>
-          <p>Game yang kamu cari belum tersedia dalam katalog.</p>
+          <h1>{priceStatus === 'loading' ? 'Memuat detail game…' : 'Game tidak ditemukan'}</h1>
+          <p>{priceStatus === 'loading' ? 'Mengambil data katalog GameHub.' : 'Game yang kamu cari belum tersedia dalam katalog.'}</p>
           <Link className={styles.backLink} to="/catalog">← Kembali ke Katalog</Link>
         </div>
       </main>
@@ -209,7 +211,11 @@ const history = usePriceHistory(gameId, historyStore)
                 </div>
               )
             })}
-            <p className={styles.demoNote}>{priceStatus === 'live' ? 'Harga dan diskon mengikuti data backend GameHub. Toko tanpa data harga ditandai “belum tersedia”.' : 'Harga aktual sedang dimuat atau belum tersedia dari API.'}</p>
+            <p className={styles.demoNote}>{referenceOnly
+              ? 'Game referensi: galeri tersedia, tetapi harga dan diskon untuk game ini belum terverifikasi di backend.'
+              : priceStatus === 'live'
+                ? 'Harga dan diskon mengikuti data backend GameHub. Toko tanpa data harga ditandai “belum tersedia”.'
+                : 'Harga aktual sedang dimuat atau belum tersedia dari API.'}</p>
           </aside>
         </div>
 
@@ -286,7 +292,7 @@ const history = usePriceHistory(gameId, historyStore)
               </select>
             </label>
           </div>
-          <PriceHistoryPanel store={historyStore} source={history.source} status={history.status} points={history.points} />
+          <PriceHistoryPanel store={historyStore} source={history.source} status={referenceOnly ? 'empty' : history.status} points={history.points} />
         </section>
       </div>
     </main>
