@@ -72,3 +72,36 @@ test('verified backend cards still require live API detail and history', () => {
   assert.equal(isReferenceOnlyGame([real]), false)
   assert.equal(isReferenceOnlyGame([{ ...real, previewOnly: true }, real]), false)
 })
+
+
+test('a uniquely titled backend game with an alternate slug retains its verified Epic offer', () => {
+  const game = { slug: 'battlefield_6', title: 'Battlefield 6', genre: 'FPS' }
+  const realEpic = {
+    ...reference('battlefield_6'), store: 'epic', title: 'Battlefield 6',
+    originalPrice: 200000, currentPrice: 150000, currency: 'IDR',
+  }
+  const cards = withEpicShowcase([game], [realEpic], featured)
+  const matching = cards.filter((card) => card.title === 'Battlefield 6')
+  assert.equal(matching.length, 1)
+  assert.equal(matching[0].id, 'battlefield_6')
+  assert.equal(matching[0].currentPrice, 150000)
+  assert.equal(matching[0].originalPrice, 200000)
+  assert.equal(matching[0].previewOnly, undefined)
+})
+
+test('ambiguous backend titles do not borrow the wrong store offer', () => {
+  const games = [
+    { slug: 'battlefield_6', title: 'Battlefield 6' },
+    { slug: 'battlefield-6-ultimate', title: 'Battlefield: 6' },
+  ]
+  const realEpic = {
+    ...reference('battlefield_6'), store: 'epic', title: 'Battlefield 6',
+    originalPrice: 200000, currentPrice: 150000, currency: 'IDR',
+  }
+  const cards = withEpicShowcase(games, [realEpic], featured)
+  const referenceCard = cards.find((card) => card.id === 'battlefield-6')
+  assert.ok(referenceCard)
+  assert.equal(referenceCard.previewOnly, true)
+  assert.equal(referenceCard.currentPrice, null)
+  assert.equal(cards.filter((card) => card.id === 'battlefield_6').length, 1)
+})

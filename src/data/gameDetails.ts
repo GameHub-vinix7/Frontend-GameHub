@@ -120,5 +120,6 @@ export function getGameDetailContent(gameId: string, title: string): DetailConte
   if (gameId === 'red-dead-redemption-2' || title.toLowerCase().includes('red dead redemption 2')) {
     return rdr2
   }
-  return gameMediaDetails[gameId] ?? null
+  const normalizedTitle = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+  return gameMediaDetails[gameId] ?? gameMediaDetails[normalizedTitle] ?? null
 }

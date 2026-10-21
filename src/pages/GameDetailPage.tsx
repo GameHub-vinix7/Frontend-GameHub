@@ -201,7 +201,15 @@ function GameDetailPage({ games, priceStatus }: GameDetailPageProps) {
                         {updatedAt && <span>Harga diambil: <time dateTime={offer.priceUpdatedAt}>{updatedAt}</time></span>}
                       </>
                     ) : (
-                      <span>Harga {offer.store === 'steam' ? 'Steam' : offer.store === 'epic' ? 'Epic Games Store' : 'GOG'} belum tersedia dari API.</span>
+                      <span>
+                        {priceStatus === 'unavailable'
+                          ? 'Koneksi backend GameHub sedang tidak tersedia. Harga belum dapat diverifikasi.'
+                          : referenceOnly
+                            ? 'Game ini masih berupa kartu referensi; backend belum memiliki penawaran harga untuk game ini.'
+                            : knownOffers.some((candidate) => candidate.store === offer.store)
+                              ? 'Penawaran toko tercatat, tetapi belum ada harga IDR yang terverifikasi.'
+                              : 'Belum ada penawaran toko yang terverifikasi di backend GameHub.'}
+                      </span>
                     )}
                     {storeUrl && <a className={styles.storeLink} href={storeUrl} target="_blank" rel="noopener noreferrer">
                       Lihat di {offer.store === 'steam' ? 'Steam' : offer.store === 'epic' ? 'Epic Games Store' : 'GOG'} ↗

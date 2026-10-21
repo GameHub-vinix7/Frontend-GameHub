@@ -15,3 +15,9 @@ test('a store without a verified product page is never given a fabricated link',
   assert.equal(verifiedStoreUrl('sekiro-shadows-die-twice', 'epic'), null)
   assert.equal(verifiedStoreUrl('unknown-game', 'steam'), null)
 })
+
+
+test('backend underscores reuse only already-verified official game URLs', () => {
+  assert.equal(verifiedStoreUrl('battlefield_6', 'epic'), 'https://store.epicgames.com/p/battlefield-6')
+  assert.equal(verifiedStoreUrl('unknown_backend_game', 'epic'), null)
+})

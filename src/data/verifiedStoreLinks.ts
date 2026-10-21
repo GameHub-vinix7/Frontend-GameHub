@@ -24,5 +24,7 @@ const verifiedPages: Record<string, Partial<Record<StoreId, string>>> = {
 }
 
 export function verifiedStoreUrl(gameId: string, store: StoreId): string | null {
-  return verifiedPages[gameId]?.[store] ?? null
+  return verifiedPages[gameId]?.[store]
+    ?? verifiedPages[gameId.replace(/_/g, '-')]?.[store]
+    ?? null
 }
