@@ -23,14 +23,16 @@ function NavigableGameCard({ game, isFavorite, onToggleFavorite }: NavigableGame
       <GameCard
         game={game}
         isFavorite={isFavorite}
-        onToggleFavorite={onToggleFavorite}
+        onToggleFavorite={game.previewOnly ? undefined : onToggleFavorite}
       />
-      <Link
-        className={styles.openDetail}
-        to={`/games/${encodeURIComponent(game.id)}`}
-        state={{ from }}
-        aria-label={`Lihat detail ${game.title}`}
-      />
+      {!game.previewOnly && (
+        <Link
+          className={styles.openDetail}
+          to={`/games/${encodeURIComponent(game.id)}`}
+          state={{ from }}
+          aria-label={`Lihat detail ${game.title}`}
+        />
+      )}
     </div>
   )
 }

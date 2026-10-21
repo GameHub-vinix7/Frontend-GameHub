@@ -38,13 +38,15 @@ function GameCard({
           className={styles.favoriteButton}
           type="button"
           aria-label={
-            isFavorite
-              ? `Hapus ${game.title} dari favorit`
-              : `Tambahkan ${game.title} ke favorit`
+            game.previewOnly
+              ? `${game.title} belum terdaftar di backend, favorit belum tersedia`
+              : isFavorite
+                ? `Hapus ${game.title} dari favorit`
+                : `Tambahkan ${game.title} ke favorit`
           }
           aria-pressed={isFavorite}
           onClick={() => onToggleFavorite?.(game)}
-          disabled={!onToggleFavorite}
+          disabled={!onToggleFavorite || game.previewOnly}
         >
           <svg
             viewBox="0 0 24 24"
@@ -112,7 +114,7 @@ function GameCard({
           {game.currentPrice !== null && game.currency === 'IDR' ? (
             <p className={styles.priceSource}>IDR · {storeName}</p>
           ) : (
-            <p className={styles.priceSource}>Belum ada data harga dari API</p>
+            <p className={styles.priceSource}>{game.previewOnly ? 'Game referensi · penawaran Epic belum terverifikasi' : 'Belum ada data harga dari API'}</p>
           )}
         </div>
 

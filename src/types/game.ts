@@ -13,4 +13,6 @@ export type GameCardData = {
   rating: number | null
   genres: readonly string[]
   description?: string | null
+  /** Static reference card without a matching backend game; not a verified offer. */
+  previewOnly?: boolean
 }
