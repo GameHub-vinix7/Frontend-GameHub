@@ -1,6 +1,5 @@
 .page {
   box-sizing: border-box;
-  min-height: 2179px;
   padding: 72px 36px 92px;
   color: #fff;
   background: linear-gradient(296.82deg, #00010f 0%, #00101b 100%);
@@ -374,7 +373,7 @@
 }
 
 @media (max-width: 1180px) {
-  .page { min-height: 0;
+  .page {
     padding: 48px 24px 90px;
   }
 

@@ -1,6 +1,5 @@
 .page {
   box-sizing: border-box;
-  min-height: 1780px;
   padding: 68px 20px 90px;
   background: linear-gradient(296.82deg, #00010f 0%, #00101b 100%);
   color: #fff;
@@ -22,7 +21,7 @@
   .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 900px) {
-  .page { min-height: auto; padding: 40px 20px 80px; }
+  .page { padding: 40px 20px 80px; }
   .layout { grid-template-columns: minmax(0, 1fr); }
   .heading h1 { font-size: 30px; line-height: 38px; }
   .heading p { font-size: 16px; line-height: 24px; }
@@ -60,8 +59,6 @@
   width: 32px;
   height: 28px;
 }
-.backLink:hover { background: #08304d; }
-.backLink:focus-visible { outline: 2px solid #50b4ea; outline-offset: 3px; }
 
 @media (max-width: 600px) {
   .backLink {
@@ -77,9 +74,4 @@
 
 .backLink:hover { background: rgba(0, 99, 169, 0.18); }
 .backLink:focus-visible { outline: 2px solid #38bdf8; outline-offset: 3px; }
-.backRow {
-  display: flex;
-  justify-content: flex-start;
-  margin-bottom: 18px;
-}
 

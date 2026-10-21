@@ -4,15 +4,6 @@ function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
-
-        <div className={styles.brand}>
-
-
-        </div>
-
-
-
-
         <div className={styles.description}>
           <p>
             Game Hub adalah direktori &amp; tracker diskon game

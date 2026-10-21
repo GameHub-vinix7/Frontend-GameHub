@@ -34,8 +34,6 @@
   max-width: 1100px;
 
 
-  margin: 0;
-
   margin: 13px 0 0;
   padding: 0;
 
@@ -62,20 +60,6 @@
     padding: 44px 40px 46px 48px;
   }
 
-
-  .brand {
-    flex-basis: 208px;
-  }
-
-  .logo {
-    font-size: 36px;
-    line-height: 54px;
-  }
-
-  .separator {
-    margin-left: 32px;
-    margin-top: 8px;
-  }
 
 
   .description {
